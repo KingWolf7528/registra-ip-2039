@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react'
 import { TIPOS_ACEPTADOS } from '../../config.js'
-import { formatearTamano } from '../../utils/wizardObra.js'
+import { formatearTamano, validarArchivo } from '../../utils/wizardObra.js'
 import { useVistaPrevia } from '../../utils/useVistaPrevia.js'
 
 function PasoArchivo({ archivo, onCambiar }) {
   const input = useRef(null)
   const [arrastrando, setArrastrando] = useState(false)
   const vistaPrevia = useVistaPrevia(archivo)
+  const errores = archivo ? validarArchivo(archivo) : []
 
   function elegir(lista) {
     if (lista && lista[0]) onCambiar(lista[0])
@@ -20,7 +21,9 @@ function PasoArchivo({ archivo, onCambiar }) {
 
       <label
         htmlFor="archivo"
-        className={`zona-archivo${arrastrando ? ' zona-archivo--activa' : ''}`}
+        className={`zona-archivo${arrastrando ? ' zona-archivo--activa' : ''}${
+          errores.length ? ' zona-archivo--error' : ''
+        }`}
         onDragOver={(e) => {
           e.preventDefault()
           setArrastrando(true)
@@ -48,6 +51,8 @@ function PasoArchivo({ archivo, onCambiar }) {
         accept={TIPOS_ACEPTADOS}
         className="solo-lectores"
         onChange={(e) => elegir(e.target.files)}
+        aria-describedby={errores.length ? 'error-archivo' : undefined}
+        aria-invalid={errores.length > 0}
       />
 
       {archivo && (
@@ -78,6 +83,11 @@ function PasoArchivo({ archivo, onCambiar }) {
         </div>
       )}
 
+      {errores.length > 0 && (
+        <p id="error-archivo" className="campo__error">
+          {errores.join(' ')}
+        </p>
+      )}
     </div>
   )
 }

@@ -4,7 +4,7 @@ import PasoArchivo from '../components/wizard/PasoArchivo.jsx'
 import PasoMetadatos from '../components/wizard/PasoMetadatos.jsx'
 import PasoVistaPrevia from '../components/wizard/PasoVistaPrevia.jsx'
 import PasoConfirmacion from '../components/wizard/PasoConfirmacion.jsx'
-import { PASOS, estadoInicial, wizardReducer } from '../utils/wizardObra.js'
+import { PASOS, estadoInicial, validarPaso, wizardReducer } from '../utils/wizardObra.js'
 import { obtenerUsuario } from '../utils/sesion.js'
 
 // Wizard de 4 pasos. Un solo useReducer en el componente padre guarda
@@ -25,6 +25,7 @@ function RegistrarObra() {
   }, [estado.paso])
 
   const { paso } = estado
+  const { valido, pendientes } = validarPaso(estado, paso)
 
 
   return (
@@ -68,6 +69,15 @@ function RegistrarObra() {
 
       {paso < 4 && (
         <>
+          {/* Explica por qué "Siguiente" está deshabilitado. */}
+          <div className="wizard__pendientes" aria-live="polite">
+            {!valido && (
+              <p>
+                <strong>Para continuar:</strong> {pendientes.join(' ')}
+              </p>
+            )}
+          </div>
+
           <div className="wizard__acciones">
             <button
               type="button"
@@ -82,6 +92,7 @@ function RegistrarObra() {
                 type="button"
                 className="boton"
                 onClick={() => dispatch({ type: 'SIGUIENTE' })}
+                disabled={!valido}
               >
                 Siguiente →
               </button>
