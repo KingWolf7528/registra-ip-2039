@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { obtenerObra, urlArchivo } from '../utils/api.js'
 import { formatearTamano } from '../utils/wizardObra.js'
+import { descargarCertificado } from '../utils/generarCertificado.js'
 
 function formatearFecha(iso) {
   return new Date(iso).toLocaleString('es-MX', { dateStyle: 'long', timeStyle: 'short' })
@@ -12,6 +13,8 @@ function ObraDetalle() {
   const { folio } = useParams()
   const [obra, setObra] = useState(null)
   const [estado, setEstado] = useState('cargando') // cargando | listo | no-existe | error
+  const [generando, setGenerando] = useState(false)
+  const [errorPdf, setErrorPdf] = useState('')
 
   useEffect(() => {
     let activo = true
@@ -26,6 +29,19 @@ function ObraDetalle() {
       activo = false
     }
   }, [folio])
+
+  async function descargar() {
+    setGenerando(true)
+    setErrorPdf('')
+    try {
+      await descargarCertificado(obra)
+    } catch (err) {
+      console.error(err)
+      setErrorPdf('No se pudo generar el certificado. Intenta de nuevo.')
+    } finally {
+      setGenerando(false)
+    }
+  }
 
   if (estado === 'cargando') {
     return <p className="subtitulo">Cargando obra {folio}…</p>
@@ -102,6 +118,25 @@ function ObraDetalle() {
         </div>
       </section>
 
+      <section className="tarjeta certificado" aria-labelledby="titulo-certificado">
+        <div>
+          <h2 id="titulo-certificado" className="titulo">
+            Certificado de registro
+          </h2>
+          <p className="subtitulo">
+            PDF tipo diploma con el folio <strong>{obra.folio}</strong>, los datos de la obra y un
+            código QR para verificarlo.
+          </p>
+          {errorPdf && (
+            <p className="campo__error" role="alert">
+              {errorPdf}
+            </p>
+          )}
+        </div>
+        <button type="button" className="boton" onClick={descargar} disabled={generando}>
+          {generando ? 'Generando…' : '⬇ Descargar certificado'}
+        </button>
+      </section>
     </div>
   )
 }
