@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { obtenerObra, urlArchivo } from '../utils/api.js'
 import { formatearTamano } from '../utils/wizardObra.js'
 import { descargarCertificado } from '../utils/generarCertificado.js'
@@ -11,6 +11,7 @@ function formatearFecha(iso) {
 // Vista de detalle de una obra: /obras/:folio
 function ObraDetalle() {
   const { folio } = useParams()
+  const navigate = useNavigate()
   const [obra, setObra] = useState(null)
   const [estado, setEstado] = useState('cargando') // cargando | listo | no-existe | error
   const [generando, setGenerando] = useState(false)
@@ -68,9 +69,9 @@ function ObraDetalle() {
 
   return (
     <div className="dashboard">
-      <Link to="/dashboard" className="volver">
-        ← Volver al dashboard
-      </Link>
+      <button type="button" className="volver boton--texto" onClick={() => navigate(-1)}>
+        ← Volver
+      </button>
 
       <section className="tarjeta detalle" aria-labelledby="titulo-obra">
         <div className="detalle__media">

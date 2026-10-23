@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import ObraTarjeta from '../components/galeria/ObraTarjeta.jsx'
+import ObraModal from '../components/galeria/ObraModal.jsx'
 import { CATEGORIAS } from '../config.js'
 import { obtenerObras } from '../utils/api.js'
 import { ORDENES, filtrarObras } from '../utils/galeria.js'
@@ -57,7 +58,7 @@ function Galeria() {
   const [obras, setObras] = useState([])
   const [estado, setEstado] = useState('cargando') // cargando | listo | error
   const [intento, setIntento] = useState(0)
-  const navigate = useNavigate()
+  const [seleccionada, setSeleccionada] = useState(null)
   const [params, setParams] = useSearchParams()
 
   const busqueda = params.get('q') ?? ''
@@ -227,15 +228,12 @@ function Galeria() {
       {estado === 'listo' && resultados.length > 0 && (
         <ul className="galeria__grid">
           {resultados.map((obra) => (
-            <ObraTarjeta
-              key={obra.folio}
-              obra={obra}
-              onAbrir={(o) => navigate(`/obras/${o.folio}`)}
-            />
+            <ObraTarjeta key={obra.folio} obra={obra} onAbrir={setSeleccionada} />
           ))}
         </ul>
       )}
 
+      {seleccionada && <ObraModal obra={seleccionada} onCerrar={() => setSeleccionada(null)} />}
     </div>
   )
 }
