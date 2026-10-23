@@ -27,9 +27,14 @@ function ObrasRegistradas() {
         <h2 id="titulo-obras" className="titulo">
           Obras registradas
         </h2>
-        <Link to="/obras/nueva" className="boton">
-          + Registrar obra
-        </Link>
+        <div className="seccion__acciones">
+          <Link to="/galeria" className="boton boton--secundario">
+            Ver galería
+          </Link>
+          <Link to="/obras/nueva" className="boton">
+            + Registrar obra
+          </Link>
+        </div>
       </div>
 
       {estado === 'cargando' && <p className="subtitulo">Cargando obras…</p>}

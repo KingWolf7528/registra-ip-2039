@@ -5,6 +5,7 @@ import Registro from './pages/Registro.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import RegistrarObra from './pages/RegistrarObra.jsx'
 import ObraDetalle from './pages/ObraDetalle.jsx'
+import Galeria from './pages/Galeria.jsx'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         {/* Rutas privadas: solo con sesión iniciada */}
         <Route element={<RutaProtegida />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/galeria" element={<Galeria />} />
           <Route path="/obras/nueva" element={<RegistrarObra />} />
           <Route path="/obras/:folio" element={<ObraDetalle />} />
         </Route>
