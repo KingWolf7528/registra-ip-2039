@@ -38,9 +38,9 @@ npm run dev     # inicia el servidor en http://localhost:5173
 registra-ip/
 ├── public/          # archivos estáticos (favicon, íconos)
 ├── src/
-│   ├── components/  # Layout, RutaProtegida, ObrasRegistradas y wizard/ (pasos y barra de progreso)
-│   ├── pages/       # Registro, Dashboard, RegistrarObra (wizard) y ObraDetalle (certificado)
-│   ├── utils/       # sesion.js, wizardObra.js, api.js y generarCertificado.js (PDF + QR)
+│   ├── components/  # Layout, RutaProtegida, ObrasRegistradas, wizard/ y galeria/ (tarjeta y modal)
+│   ├── pages/       # Registro, Dashboard, RegistrarObra (wizard), ObraDetalle y Galeria
+│   ├── utils/       # sesion, wizardObra, api, generarCertificado y galeria (búsqueda/filtros)
 │   ├── config.js    # URL del API, prefijo de folio OBRA-2039 y categorías
 │   ├── App.jsx      # definición de rutas
 │   ├── App.css      # guía de estilo: colores, tipografía, espaciados
@@ -59,5 +59,6 @@ registra-ip/
 | 02 | Paleta de color, layout responsivo, registro y ruta protegida | ✅ |
 | 03 | Wizard de registro de obras + backend con multer (folios `OBRA-2039-###`) | ✅ |
 | 04 | Certificado PDF tipo diploma con QR del folio (jsPDF + qrcode) | ✅ |
+| 05 | Galería con búsqueda, filtro por categoría, orden por fecha y criterios ISO 9241 | ✅ |
 
 Explicación de cada comando usado en la instalación: [docs/COMANDOS.md](docs/COMANDOS.md)
