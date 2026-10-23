@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { cerrarSesion, obtenerUsuario } from '../utils/sesion.js'
 
 // Muestra de la guía de estilo con la razón de contraste sobre blanco.
@@ -61,9 +61,14 @@ function Dashboard() {
             </div>
           </dl>
         </div>
-        <button type="button" className="boton boton--secundario" onClick={salir}>
-          Cerrar sesión
-        </button>
+        <div className="bienvenida__acciones">
+          <Link to="/obras/nueva" className="boton">
+            Registrar obra
+          </Link>
+          <button type="button" className="boton boton--secundario" onClick={salir}>
+            Cerrar sesión
+          </button>
+        </div>
       </section>
 
       <section className="tarjeta" aria-labelledby="titulo-paleta">

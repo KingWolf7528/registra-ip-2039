@@ -11,6 +11,7 @@ function Layout() {
           <nav className="nav" aria-label="Navegación principal">
             <NavLink to="/registro">Registro</NavLink>
             <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/obras/nueva">Registrar obra</NavLink>
           </nav>
         </div>
       </header>
