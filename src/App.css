@@ -1,184 +1,238 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* =====================================================================
+   REGISTRA-IP — Guía de estilo (Práctica 02)
+   Autor: Pineda Flores Christopher Javier · Boleta 2024602039
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+   COLOR PRIMARIO DERIVADO DE LA BOLETA
+   - Últimos 6 dígitos de la boleta: 602039  →  #602039
+   - RGB(96, 32, 57) · HSL(337°, 50%, 25%) → un tono vino / borgoña.
+
+   ANÁLISIS DE CONTRASTE (WCAG 2.x) SOBRE FONDO BLANCO #FFFFFF
+   - Luminancia relativa de #602039 ≈ 0.038 (la del blanco es 1.0).
+   - Razón de contraste = (1.0 + 0.05) / (0.038 + 0.05) ≈ 11.91 : 1
+   - WCAG AA texto normal (mín. 4.5:1) ........ CUMPLE
+   - WCAG AA texto grande (mín. 3:1) .......... CUMPLE
+   - WCAG AAA texto normal (mín. 7:1) ......... CUMPLE
+   - Verificado en https://webaim.org/resources/contrastchecker/
+   El contraste también es 11.91:1 en el caso inverso (texto blanco
+   sobre botón/encabezado #602039), así que sirve en ambos sentidos.
+
+   ¿HUBO QUE AJUSTAR EL TONO? NO.
+   Teoría del color: el contraste depende de la diferencia de
+   luminosidad, no del matiz. Con luminosidad HSL de 25% el color ya es
+   muy oscuro, por eso contrasta fuerte con el blanco. Si la boleta
+   hubiera dado un color claro (L > ~60%) habría que bajar su
+   luminosidad conservando el matiz (H) para que siguiera "siendo" el
+   mismo color de marca. Aquí no fue necesario.
+
+   COLORES DERIVADOS (mismo matiz 337°, variando luminosidad)
+   - --color-primario-hover  #8a3a57  (L≈38%) → 7.44:1 sobre blanco (AA y AAA)
+   - --color-primario-suave  #f5e9ee  (L≈94%) → solo fondo, nunca texto
+   - --color-exito           #1f7a5c  verde de matiz 160°, casi complementario
+                                      del primario (337° − 180° = 157°) → 5.25:1 (AA)
+   - --color-error           #b42318  → 6.57:1 (AA)
+   - --color-texto           #1c1b1f  → 17.13:1
+   - --color-texto-suave     #5f5b66  → 6.61:1 (AA)
+   ===================================================================== */
+
+:root {
+  /* ---------- Color ---------- */
+  --color-primario: #602039;
+  --color-primario-hover: #8a3a57;
+  --color-primario-suave: #f5e9ee;
+  --color-sobre-primario: #ffffff;
+  --color-exito: #1f7a5c;
+  --color-error: #b42318;
+  --color-error-suave: #fdecea;
+  --color-texto: #1c1b1f;
+  --color-texto-suave: #5f5b66;
+  --color-fondo: #ffffff;
+  --color-superficie: #fbf8fa;
+  --color-borde: #e6e1e5;
+
+  /* ---------- Tipografía base ---------- */
+  --fuente-base: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --fuente-mono: ui-monospace, Consolas, 'Courier New', monospace;
+  --texto-sm: 0.875rem;  /* 14px */
+  --texto-base: 1rem;    /* 16px */
+  --texto-lg: 1.25rem;   /* 20px */
+  --texto-xl: 1.75rem;   /* 28px */
+  --interlineado: 1.5;
+
+  /* ---------- Espaciados (escala de 4px) ---------- */
+  --esp-1: 0.25rem;  /* 4px  */
+  --esp-2: 0.5rem;   /* 8px  */
+  --esp-3: 0.75rem;  /* 12px */
+  --esp-4: 1rem;     /* 16px */
+  --esp-6: 1.5rem;   /* 24px */
+  --esp-8: 2rem;     /* 32px */
+  --esp-12: 3rem;    /* 48px */
+
+  /* ---------- Otros ---------- */
+  --radio: 8px;
+  --ancho-max: 960px;
+  --sombra: 0 4px 16px rgba(96, 32, 57, 0.08);
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
+/* =====================  LAYOUT  ===================== */
+.layout {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+.encabezado {
+  background: var(--color-primario);
+  color: var(--color-sobre-primario);
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
-  position: relative;
+.encabezado__contenido,
+.contenido,
+.pie__contenido {
   width: 100%;
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding-inline: var(--esp-4);
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+.encabezado__contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  padding-block: var(--esp-4);
+}
+
+.marca {
+  font-size: var(--texto-lg);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.marca span {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.nav {
+  display: flex;
+  gap: var(--esp-2);
+}
+
+.nav a {
+  color: var(--color-sobre-primario);
+  text-decoration: none;
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio);
+}
+
+.nav a:hover,
+.nav a.active {
+  background: var(--color-primario-hover);
+}
+
+.contenido {
+  flex: 1;
+  padding-block: var(--esp-8);
+}
+
+.pie {
+  border-top: 1px solid var(--color-borde);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+}
+
+.pie__contenido {
+  padding-block: var(--esp-4);
+}
+
+/* =====================  COMPONENTES  ===================== */
+.tarjeta {
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--esp-8);
+}
+
+.titulo {
+  margin: 0 0 var(--esp-2);
+  font-size: var(--texto-xl);
+  color: var(--color-primario);
+}
+
+.subtitulo {
+  margin: 0 0 var(--esp-6);
+  color: var(--color-texto-suave);
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  font: inherit;
+  font-weight: 600;
+  padding: var(--esp-3) var(--esp-6);
+  border-radius: var(--radio);
+  border: 2px solid var(--color-primario);
+  background: var(--color-primario);
+  color: var(--color-sobre-primario);
+  cursor: pointer;
+}
+
+.boton:hover {
+  background: var(--color-primario-hover);
+  border-color: var(--color-primario-hover);
+}
+
+.boton--secundario {
+  background: transparent;
+  color: var(--color-primario);
+}
+
+.boton--secundario:hover {
+  background: var(--color-primario-suave);
+  color: var(--color-primario);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primario-hover);
+  outline-offset: 2px;
+}
+
+/* =====================  RESPONSIVO (< 600px)  ===================== */
+@media (max-width: 599px) {
+  .encabezado__contenido {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--esp-2);
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
+  .nav {
+    width: 100%;
   }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+
+  .nav a {
+    flex: 1;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .contenido {
+    padding-block: var(--esp-4);
+  }
+
+  .tarjeta {
+    padding: var(--esp-4);
+  }
+
+  .titulo {
+    font-size: var(--texto-lg);
+  }
+
+  .boton {
+    width: 100%;
   }
 }
