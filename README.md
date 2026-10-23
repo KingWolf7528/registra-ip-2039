@@ -14,6 +14,7 @@ REGISTRA-IP — Registro y verificación de autoría. Proyecto de la materia Dis
 - [React](https://react.dev) — biblioteca para construir interfaces
 - [Vite](https://vite.dev) — servidor de desarrollo y empaquetador
 - [React Router](https://reactrouter.com) — navegación entre páginas y ruta protegida
+- [jsPDF](https://github.com/parallax/jsPDF) y [qrcode](https://github.com/soldair/node-qrcode) — certificado PDF con código QR
 - Node.js LTS + npm, Git y GitHub
 
 ## Cómo ejecutar
@@ -38,8 +39,8 @@ registra-ip/
 ├── public/          # archivos estáticos (favicon, íconos)
 ├── src/
 │   ├── components/  # Layout, RutaProtegida, ObrasRegistradas y wizard/ (pasos y barra de progreso)
-│   ├── pages/       # Registro, Dashboard y RegistrarObra (wizard)
-│   ├── utils/       # sesion.js, wizardObra.js (estado y validaciones), api.js (fetch)
+│   ├── pages/       # Registro, Dashboard, RegistrarObra (wizard) y ObraDetalle (certificado)
+│   ├── utils/       # sesion.js, wizardObra.js, api.js y generarCertificado.js (PDF + QR)
 │   ├── config.js    # URL del API, prefijo de folio OBRA-2039 y categorías
 │   ├── App.jsx      # definición de rutas
 │   ├── App.css      # guía de estilo: colores, tipografía, espaciados
@@ -57,5 +58,6 @@ registra-ip/
 | 01 | Instalación del entorno y proyecto base | ✅ |
 | 02 | Paleta de color, layout responsivo, registro y ruta protegida | ✅ |
 | 03 | Wizard de registro de obras + backend con multer (folios `OBRA-2039-###`) | ✅ |
+| 04 | Certificado PDF tipo diploma con QR del folio (jsPDF + qrcode) | ✅ |
 
 Explicación de cada comando usado en la instalación: [docs/COMANDOS.md](docs/COMANDOS.md)
