@@ -2,6 +2,7 @@
 // Hoja A4 horizontal (297 × 210 mm). Ver el boceto en docs/boceto-certificado.png
 // y las decisiones de diseño en docs/PRACTICA04.md.
 import { jsPDF } from 'jspdf'
+import QRCode from 'qrcode'
 import { REGISTRADO_POR } from '../config.js'
 
 // ---------- Retícula (mm) ----------
@@ -10,6 +11,7 @@ const ALTO = 210
 const CENTRO = ANCHO / 2
 const MARGEN = 10 // del borde de la hoja al marco exterior
 const MARGEN_INTERNO = 26 // del borde de la hoja al contenido
+const QR_TAMANO = 36
 
 // ---------- Paleta (oscura para que también se lea en blanco y negro) ----------
 const PRIMARIO = [96, 32, 57] // #602039, color derivado de la boleta
@@ -76,6 +78,30 @@ function dato(doc, etiqueta, valor, x, y, opciones = {}) {
   doc.setTextColor(...(opciones.color ?? TEXTO))
   const lineas = doc.splitTextToSize(valor, opciones.ancho ?? 80)
   doc.text(lineas.slice(0, 2), x, y + 5.5)
+}
+
+async function dibujarQR(doc, folio) {
+  // QR negro sobre blanco: máximo contraste para que cualquier cámara lo lea.
+  const imagen = await QRCode.toDataURL(folio, {
+    errorCorrectionLevel: 'M',
+    margin: 1,
+    width: 600,
+    color: { dark: '#000000', light: '#ffffff' },
+  })
+  const x = ANCHO - MARGEN_INTERNO - QR_TAMANO
+  const y = 128
+  doc.addImage(imagen, 'PNG', x, y, QR_TAMANO, QR_TAMANO)
+
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(8.5)
+  doc.setTextColor(...TEXTO)
+  doc.text(folio, x + QR_TAMANO / 2, y + QR_TAMANO + 4.5, { align: 'center' })
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(T.pie)
+  doc.setTextColor(...SUAVE)
+  doc.text('Escanea para verificar el folio', x + QR_TAMANO / 2, y + QR_TAMANO + 8.5, {
+    align: 'center',
+  })
 }
 
 /**
@@ -159,6 +185,9 @@ export async function generarCertificado(obra) {
   doc.setFontSize(T.etiqueta + 0.5)
   doc.setTextColor(...SUAVE)
   doc.text('Responsable del sistema REGISTRA-IP', CENTRO, 172, { align: 'center' })
+
+  // ---- QR del folio (columna derecha) ----
+  await dibujarQR(doc, obra.folio)
 
   // ---- Pie ----
   doc.setFont('helvetica', 'normal')
