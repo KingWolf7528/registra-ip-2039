@@ -18,7 +18,15 @@ REGISTRA-IP — Registro y verificación de autoría. Proyecto de la materia Dis
 
 ## Cómo ejecutar
 
+Se necesitan dos terminales: el **backend** ([registra-ip-server-2039](https://github.com/KingWolf7528/registra-ip-server-2039)) y este **frontend**.
+
 ```bash
+# Terminal 1 — backend (carpeta hermana registra-ip-server)
+cd ../registra-ip-server
+npm install
+npm start       # http://localhost:4000
+
+# Terminal 2 — frontend
 npm install     # instala las dependencias
 npm run dev     # inicia el servidor en http://localhost:5173
 ```
@@ -29,9 +37,10 @@ npm run dev     # inicia el servidor en http://localhost:5173
 registra-ip/
 ├── public/          # archivos estáticos (favicon, íconos)
 ├── src/
-│   ├── components/  # Layout.jsx y RutaProtegida.jsx
-│   ├── pages/       # Registro.jsx y Dashboard.jsx
-│   ├── utils/       # sesion.js (localStorage)
+│   ├── components/  # Layout, RutaProtegida, ObrasRegistradas y wizard/ (pasos y barra de progreso)
+│   ├── pages/       # Registro, Dashboard y RegistrarObra (wizard)
+│   ├── utils/       # sesion.js, wizardObra.js (estado y validaciones), api.js (fetch)
+│   ├── config.js    # URL del API, prefijo de folio OBRA-2039 y categorías
 │   ├── App.jsx      # definición de rutas
 │   ├── App.css      # guía de estilo: colores, tipografía, espaciados
 │   ├── main.jsx     # punto de entrada con <BrowserRouter>
@@ -47,5 +56,6 @@ registra-ip/
 |---|------|--------|
 | 01 | Instalación del entorno y proyecto base | ✅ |
 | 02 | Paleta de color, layout responsivo, registro y ruta protegida | ✅ |
+| 03 | Wizard de registro de obras + backend con multer (folios `OBRA-2039-###`) | ✅ |
 
 Explicación de cada comando usado en la instalación: [docs/COMANDOS.md](docs/COMANDOS.md)
