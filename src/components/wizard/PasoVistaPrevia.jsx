@@ -25,12 +25,12 @@ function PasoVistaPrevia({ estado, usuario, onEditar }) {
         <dl className="resumen__datos">
           <div>
             <dt>Título</dt>
-            <dd>{titulo.trim() || <em>Sin título</em>}</dd>
+            <dd>{titulo.trim()}</dd>
           </div>
           <div>
             <dt>Categoría</dt>
             <dd>
-              {categoria ? <span className="etiqueta">{categoria}</span> : <em>Sin categoría</em>}
+              <span className="etiqueta">{categoria}</span>
             </dd>
           </div>
           <div className="resumen__completo">
@@ -40,7 +40,7 @@ function PasoVistaPrevia({ estado, usuario, onEditar }) {
           <div>
             <dt>Archivo</dt>
             <dd>
-              {archivo ? `${archivo.name} (${formatearTamano(archivo.size)})` : <em>Sin archivo</em>}
+              {archivo.name} ({formatearTamano(archivo.size)})
             </dd>
           </div>
           <div>

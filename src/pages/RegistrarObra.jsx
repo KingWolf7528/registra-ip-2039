@@ -5,6 +5,7 @@ import PasoMetadatos from '../components/wizard/PasoMetadatos.jsx'
 import PasoVistaPrevia from '../components/wizard/PasoVistaPrevia.jsx'
 import PasoConfirmacion from '../components/wizard/PasoConfirmacion.jsx'
 import { PASOS, estadoInicial, validarPaso, wizardReducer } from '../utils/wizardObra.js'
+import { registrarObra } from '../utils/api.js'
 import { obtenerUsuario } from '../utils/sesion.js'
 
 // Wizard de 4 pasos. Un solo useReducer en el componente padre guarda
@@ -24,9 +25,23 @@ function RegistrarObra() {
     tituloPaso.current?.focus()
   }, [estado.paso])
 
-  const { paso } = estado
+  const { paso, envio } = estado
   const { valido, pendientes } = validarPaso(estado, paso)
 
+  async function confirmar() {
+    dispatch({ type: 'ENVIO_INICIO' })
+    try {
+      const obra = await registrarObra(estado, usuario)
+      dispatch({ type: 'ENVIO_EXITO', obra })
+    } catch (err) {
+      // fetch lanza TypeError cuando el servidor no responde (apagado o sin red).
+      const mensajes =
+        err instanceof TypeError
+          ? ['No hay conexión con el servidor (http://localhost:4000).']
+          : err.message.split('\n')
+      dispatch({ type: 'ENVIO_ERROR', errores: mensajes })
+    }
+  }
 
   return (
     <section className="tarjeta wizard" aria-labelledby="titulo-wizard">
@@ -35,7 +50,7 @@ function RegistrarObra() {
       </h1>
       <BarraProgreso
         pasoActual={paso}
-        onIrA={paso < 4 ? (n) => dispatch({ type: 'IR_A', paso: n }) : null}
+        onIrA={envio.estado === 'inactivo' ? (n) => dispatch({ type: 'IR_A', paso: n }) : null}
       />
 
       <h2 ref={tituloPaso} tabIndex={-1} className="wizard__paso-titulo">
@@ -64,7 +79,12 @@ function RegistrarObra() {
         />
       )}
       {paso === 4 && (
-        <PasoConfirmacion titulo={estado.titulo} onNueva={() => dispatch({ type: 'REINICIAR' })} />
+        <PasoConfirmacion
+          envio={envio}
+          onReintentar={confirmar}
+          onAtras={() => dispatch({ type: 'ATRAS' })}
+          onNueva={() => dispatch({ type: 'REINICIAR' })}
+        />
       )}
 
       {paso < 4 && (
@@ -97,7 +117,7 @@ function RegistrarObra() {
                 Siguiente →
               </button>
             ) : (
-              <button type="button" className="boton" onClick={() => dispatch({ type: 'SIGUIENTE' })}>
+              <button type="button" className="boton" onClick={confirmar}>
                 Confirmar y registrar
               </button>
             )}

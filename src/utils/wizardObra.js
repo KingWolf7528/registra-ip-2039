@@ -15,6 +15,7 @@ export const estadoInicial = {
   titulo: '',
   categoria: '',
   descripcion: '',
+  envio: { estado: 'inactivo', obra: null, errores: [] }, // inactivo | enviando | exito | error
 }
 
 export function wizardReducer(estado, accion) {
@@ -24,7 +25,13 @@ export function wizardReducer(estado, accion) {
       if (!validarPaso(estado, estado.paso).valido) return estado
       return { ...estado, paso: Math.min(estado.paso + 1, PASOS.length) }
     case 'ATRAS':
-      return { ...estado, paso: Math.max(estado.paso - 1, 1) }
+      // Desde la confirmación con error se regresa a la vista previa
+      // conservando todo lo capturado.
+      return {
+        ...estado,
+        paso: Math.max(estado.paso - 1, 1),
+        envio: estadoInicial.envio,
+      }
     case 'IR_A':
       // Solo se puede saltar hacia atrás (a pasos ya completados).
       return accion.paso < estado.paso ? { ...estado, paso: accion.paso } : estado
@@ -32,6 +39,12 @@ export function wizardReducer(estado, accion) {
       return { ...estado, archivo: accion.archivo }
     case 'SET_CAMPO':
       return { ...estado, [accion.campo]: accion.valor }
+    case 'ENVIO_INICIO':
+      return { ...estado, paso: 4, envio: { estado: 'enviando', obra: null, errores: [] } }
+    case 'ENVIO_EXITO':
+      return { ...estado, envio: { estado: 'exito', obra: accion.obra, errores: [] } }
+    case 'ENVIO_ERROR':
+      return { ...estado, envio: { estado: 'error', obra: null, errores: accion.errores } }
     case 'REINICIAR':
       return estadoInicial
     default:

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { cerrarSesion, obtenerUsuario } from '../utils/sesion.js'
+import ObrasRegistradas from '../components/ObrasRegistradas.jsx'
 
 // Muestra de la guía de estilo con la razón de contraste sobre blanco.
 const PALETA = [
@@ -70,6 +71,8 @@ function Dashboard() {
           </button>
         </div>
       </section>
+
+      <ObrasRegistradas />
 
       <section className="tarjeta" aria-labelledby="titulo-paleta">
         <h2 id="titulo-paleta" className="titulo">
