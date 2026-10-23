@@ -56,8 +56,8 @@ function PasoConfirmacion({ envio, onReintentar, onAtras, onNueva }) {
         <button type="button" className="boton boton--secundario" onClick={onNueva}>
           Registrar otra obra
         </button>
-        <Link to="/dashboard" className="boton">
-          Ir al dashboard
+        <Link to={`/obras/${obra.folio}`} className="boton">
+          Ver detalle y certificado
         </Link>
       </div>
     </div>

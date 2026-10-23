@@ -14,6 +14,12 @@ export async function obtenerObras() {
   return leerRespuesta(await fetch(`${API_URL}/obras`))
 }
 
+// Busca una obra por su folio (null si no existe).
+export async function obtenerObra(folio) {
+  const obras = await obtenerObras()
+  return obras.find((obra) => obra.folio === folio) ?? null
+}
+
 // Calcula el siguiente folio OBRA-2039-### a partir de las obras existentes.
 export async function siguienteFolio() {
   const obras = await obtenerObras()

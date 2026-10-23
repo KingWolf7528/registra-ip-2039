@@ -21,5 +21,8 @@ export const CATEGORIAS = [
 export const TAMANO_MAXIMO = 10 * 1024 * 1024 // 10 MB (igual que el servidor)
 export const TIPOS_ACEPTADOS = 'image/*,application/pdf,audio/*,video/*,text/plain'
 
+// Personalización obligatoria de la Práctica 04: leyenda del certificado.
+export const REGISTRADO_POR = 'Pineda Flores Christopher Javier'
+
 export const TITULO_MINIMO = 5
 export const DESCRIPCION_MAXIMA = 500

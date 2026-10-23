@@ -53,15 +53,20 @@ function ObrasRegistradas() {
                 <th scope="col">Autor</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Archivo</th>
+                <th scope="col">Certificado</th>
               </tr>
             </thead>
             <tbody>
               {obras.map((obra) => (
                 <tr key={obra.folio}>
                   <td>
-                    <code className="folio-chico">{obra.folio}</code>
+                    <Link to={`/obras/${obra.folio}`} className="folio-chico">
+                      {obra.folio}
+                    </Link>
                   </td>
-                  <td>{obra.titulo}</td>
+                  <td>
+                    <Link to={`/obras/${obra.folio}`}>{obra.titulo}</Link>
+                  </td>
                   <td>{obra.categoria}</td>
                   <td>{obra.autor}</td>
                   <td>{new Date(obra.fechaRegistro).toLocaleDateString('es-MX')}</td>
@@ -69,6 +74,9 @@ function ObrasRegistradas() {
                     <a href={urlArchivo(obra)} target="_blank" rel="noreferrer">
                       Ver
                     </a>
+                  </td>
+                  <td>
+                    <Link to={`/obras/${obra.folio}`}>Detalle y PDF</Link>
                   </td>
                 </tr>
               ))}
